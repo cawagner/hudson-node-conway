@@ -13,5 +13,9 @@ function Grid() {
     }
 }
 
+Grid.prototype.nextGeneration = function() {
+    this.rows[0][0].isAlive = true;
+};
+
 module.exports.Grid = Grid;
 module.exports.Cell = Cell;

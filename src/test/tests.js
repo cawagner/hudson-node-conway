@@ -13,4 +13,15 @@ describe('A grid', function(){
         });
     });
   })
+  describe('after setting three neighbors alive', function() {
+    it('should be set to alive', function() {
+        var grid = new conway.Grid();
+        grid.rows[0][1].isAlive = true;
+        grid.rows[1][1].isAlive = true;
+        grid.rows[1][0].isAlive = true;
+        grid.nextGeneration();
+
+        assert.equal(true, grid.rows[0][0].isAlive);
+    });
+  });
 });
