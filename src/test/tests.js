@@ -14,14 +14,28 @@ describe('A grid', function(){
     });
   })
   describe('after setting three neighbors alive', function() {
+    var grid;
+    var top = 1;
+    var left = 1;
+    beforeEach(function() {
+        grid = new conway.Grid(5);
+        grid.rows[top + 0][left + 1].isAlive = true;
+        grid.rows[top + 1][left + 1].isAlive = true;
+        grid.rows[top + 1][left + 0].isAlive = true;
+        grid.nextGeneration();
+    });
     it('should be set to alive', function() {
-        var grid = new conway.Grid();
-        grid.rows[0][1].isAlive = true;
-        grid.rows[1][1].isAlive = true;
-        grid.rows[1][0].isAlive = true;
+        assert(grid.rows[top][left].isAlive);
+    });
+    it('should remain alive after another generation', function() {
+        grid.nextGeneration();
+        assert(grid.rows[top][left].isAlive);
+    });
+    it('should die when a fourth neighbor is alive', function() {
+        grid.rows[top][left - 1].isAlive = true;
         grid.nextGeneration();
 
-        assert.equal(true, grid.rows[0][0].isAlive);
+        assert(!grid.rows[top][left].isAlive);
     });
   });
 });
