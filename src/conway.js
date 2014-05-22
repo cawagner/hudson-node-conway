@@ -1,18 +1,20 @@
 function Cell(grid, row, column) {
     this.isAlive = false;
+    this.nextIsAlive = false;
     this.row = row;
     this.column = column;
     this.grid = grid;
 }
 
 Cell.prototype.advance = function() {
+    this.nextIsAlive = this.isAlive;
     if (this.isAlive) {
         if (this.livingNeighborCount() < 2 || this.livingNeighborCount() > 3) {
-            this.isAlive = false;
+            this.nextIsAlive = false;
         }
     } else {
         if (this.livingNeighborCount() === 3) {
-            this.isAlive = true;
+            this.nextIsAlive = true;
         }
     }
 };
@@ -54,18 +56,25 @@ function Grid(size) {
 };
 
 Grid.prototype.randomize = function() {
-    this.rows.forEach(function(row) {
-        row.forEach(function(cell) {
-            cell.isAlive = Math.random() < 0.3;
-        });
+    this.forEachCell(function(cell) {
+        cell.isAlive = Math.random() < 0.3;
     });
 };
 
-Grid.prototype.nextGeneration = function() {
+Grid.prototype.forEachCell = function(fn) {
     this.rows.forEach(function(row) {
         row.forEach(function(cell) {
-            cell.advance();
+            fn(cell);
         });
+    })
+};
+
+Grid.prototype.nextGeneration = function() {
+    this.forEachCell(function(cell) {
+        cell.advance();
+    });
+    this.forEachCell(function(cell) {
+        cell.isAlive = cell.nextIsAlive;
     });
 };
 
