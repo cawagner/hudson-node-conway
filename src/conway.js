@@ -51,7 +51,15 @@ function Grid(size) {
             this.rows[i][j] = new Cell(this, i, j);
         }
     }
-}
+};
+
+Grid.prototype.randomize = function() {
+    this.rows.forEach(function(row) {
+        row.forEach(function(cell) {
+            cell.isAlive = Math.random() < 0.3;
+        });
+    });
+};
 
 Grid.prototype.nextGeneration = function() {
     this.rows.forEach(function(row) {
@@ -59,7 +67,7 @@ Grid.prototype.nextGeneration = function() {
             cell.advance();
         });
     });
-}
+};
 
 Grid.prototype.population = function() {
     var population = 0;

@@ -10,5 +10,8 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "mocha": "~1.19.0"
+  },
+  "dependencies": {
+    "colors": "~0.6.2"
   }
 }
