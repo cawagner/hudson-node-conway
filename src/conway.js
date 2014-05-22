@@ -5,6 +5,18 @@ function Cell(grid, row, column) {
     this.grid = grid;
 }
 
+Cell.prototype.advance = function() {
+    if (this.isAlive) {
+        if (this.livingNeighborCount() < 2 || this.livingNeighborCount() > 3) {
+            this.isAlive = false;
+        }
+    } else {
+        if (this.livingNeighborCount() === 3) {
+            this.isAlive = true;
+        }
+    }
+};
+
 Cell.prototype.livingNeighborCount = function() {
     var count = 0;
     var row, column, neighbor;
@@ -42,18 +54,12 @@ function Grid(size) {
 }
 
 Grid.prototype.nextGeneration = function() {
-    var cell = this.rows[1][1];
-
-    if (cell.isAlive) {
-        if (cell.livingNeighborCount() < 2 || cell.livingNeighborCount() > 3) {
-            cell.isAlive = false;
-        }
-    } else {
-        if (cell.livingNeighborCount() === 3) {
-            cell.isAlive = true;
-        }
-    }
-};
+    this.rows.forEach(function(row) {
+        row.forEach(function(cell) {
+            cell.advance();
+        });
+    });
+}
 
 Grid.prototype.population = function() {
     var population = 0;

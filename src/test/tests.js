@@ -15,7 +15,7 @@ describe('A grid', function(){
   })
   describe('after setting three neighbors alive', function() {
     var grid;
-    var top = 1;
+    var top = 2;
     var left = 1;
     beforeEach(function() {
         grid = new conway.Grid(5);
